@@ -1,0 +1,145 @@
+### Recall API Test Collection (Failure & Edge Cases)
+### Target Base URL
+@baseUrl = http://localhost:5000/api
+
+###
+### 1. Healthcheck
+GET {{baseUrl}}/health
+Content-Type: application/json
+
+###
+### 2. Valid Lesson Request
+### Expects: 200 OK with { ok: true, data: { title, summary, sections } }
+POST {{baseUrl}}/lesson
+Content-Type: application/json
+
+{
+  "topic": "Cellular Respiration and ATP Synthesis",
+  "level": "intermediate"
+}
+
+###
+### 3. Failure Case: Empty Topic
+### Expects: 400 Bad Request with { ok: false, error: { code: "BAD_INPUT", message: "..." } }
+POST {{baseUrl}}/lesson
+Content-Type: application/json
+
+{
+  "topic": "   ",
+  "level": "beginner"
+}
+
+###
+### 4. Failure Case: Topic Too Short (< 3 characters)
+### Expects: 400 Bad Request with { ok: false, error: { code: "BAD_INPUT" } }
+POST {{baseUrl}}/lesson
+Content-Type: application/json
+
+{
+  "topic": "ab",
+  "level": "beginner"
+}
+
+###
+### 5. Failure Case: 9000-Character Topic (Exceeds 8000 max limit)
+### Expects: 400 Bad Request with { ok: false, error: { code: "BAD_INPUT" } }
+POST {{baseUrl}}/lesson
+Content-Type: application/json
+
+{
+  "topic": "This topic text is purposefully repetitive and repeats many times to exceed the strict 8000-character upper threshold. ".repeat(75),
+  "level": "beginner"
+}
+
+###
+### 6. Failure Case: Invalid Depth Level
+### Expects: 400 Bad Request with { ok: false, error: { code: "BAD_INPUT" } }
+POST {{baseUrl}}/lesson
+Content-Type: application/json
+
+{
+  "topic": "Quantum Computing",
+  "level": "ninja_master"
+}
+
+###
+### 7. Valid Quiz Request
+### Expects: 200 OK with { ok: true, data: { questions: [...] } }
+POST {{baseUrl}}/quiz
+Content-Type: application/json
+
+{
+  "lesson": {
+    "title": "Photosynthesis",
+    "summary": "Process converting sunlight into sugar",
+    "sections": [
+      {
+        "id": "sec-1",
+        "heading": "Light-Dependent Reactions",
+        "explanation": "Light strikes chlorophyll in the thylakoid membrane."
+      },
+      {
+        "id": "sec-2",
+        "heading": "The Calvin Cycle",
+        "explanation": "Carbon fixation takes place in the stroma."
+      }
+    ]
+  },
+  "count": 4
+}
+
+###
+### 8. Failure Case: Quiz with Missing Lesson
+### Expects: 400 Bad Request with { ok: false, error: { code: "BAD_INPUT" } }
+POST {{baseUrl}}/quiz
+Content-Type: application/json
+
+{
+  "count": 4
+}
+
+###
+### 9. Valid Remediation Request
+### Expects: 200 OK with { ok: true, data: { reteach: [...], mustRemember: [...], memoryTricks: [...], revisionPlan: [...] } }
+POST {{baseUrl}}/remediation
+Content-Type: application/json
+
+{
+  "lesson": {
+    "title": "Photosynthesis",
+    "sections": [
+      {
+        "id": "sec-1",
+        "heading": "Light Reactions",
+        "explanation": "Light energy capture in thylakoids."
+      },
+      {
+        "id": "sec-2",
+        "heading": "Calvin Cycle",
+        "explanation": "CO2 fixation in stroma."
+      }
+    ]
+  },
+  "weakSectionIds": ["sec-1"],
+  "wrongQuestions": [
+    {
+      "question": "Where do light-dependent reactions occur?",
+      "selectedOption": "Stroma",
+      "correctOption": "Thylakoid membrane"
+    }
+  ]
+}
+
+###
+### 10. Failure Case: Remediation with Missing weakSectionIds
+### Expects: 400 Bad Request with { ok: false, error: { code: "BAD_INPUT" } }
+POST {{baseUrl}}/remediation
+Content-Type: application/json
+
+{
+  "lesson": {
+    "sections": [{ "id": "sec-1" }]
+  },
+  "weakSectionIds": []
+}
+

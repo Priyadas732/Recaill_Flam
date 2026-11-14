@@ -1,0 +1,22 @@
+:root {
+  --font-headline: 'Newsreader', 'EB Garamond', Georgia, serif;
+  --font-body: 'Hanken Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --color-primary: #447F98;
+  --color-primary-hover: #35657a;
+  --color-secondary: #27657d;
+  --color-glacier-border: #B9DBE1;
+  --color-bg-start: #D6EBF3;
+  --color-bg-mid: #EAF5F9;
+  --color-bg-end: #F6FAFD;
+  --color-text-dark: #12303D;
+  --color-text-muted: #4F6B78;
+}
+
+.dark {
+  --color-bg-start: #0D1B22;
+  --color-bg-mid: #0A161C;
+  --color-bg-end: #081217;
+  --color-glacier-border: rgba(35, 99, 123, 0.4);
+  --color-text-dark: #E2EFF5;
+  --color-text-muted: rgba(149, 206, 235, 0.8);
+}

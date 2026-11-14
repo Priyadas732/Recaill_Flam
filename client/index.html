@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en" class="light h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recall — Learn anything, then prove it</title>
+    <link rel="icon" type="image/jpeg" href="/logo.jpg" />
+    <link rel="apple-touch-icon" href="/logo.jpg" />
+
+    <!-- Google Fonts: Newsreader, EB Garamond, Hanken Grotesk, Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..700;1,400..700&family=Hanken+Grotesk:ital,wght@0,300..900;1,300..900&family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Google Material Symbols Outlined -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS with CDN and Stitch Theme Extension -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#23637b",
+              "primary-hover": "#1b4f63",
+              "secondary": "#27657d",
+              "secondary-container": "#a8e2fe",
+              "surface": "#f6fafd",
+              "surface-bright": "#f6fafd",
+              "surface-dim": "#d6dadd",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-low": "#f0f4f7",
+              "surface-container": "#eaeef1",
+              "surface-container-high": "#e5e9ec",
+              "surface-container-highest": "#dfe3e6",
+              "outline": "#71787d",
+              "outline-variant": "#c1c7cd",
+              "on-surface": "#181c1f",
+              "on-surface-variant": "#41484c",
+              "error": "#ba1a1a",
+              "error-container": "#ffdad6",
+              "glacier-border": "#B9DBE1",
+              "glacier-dark-border": "#23637B",
+              "accent-turquoise": "#447F98",
+              "accent-slate": "#629BB6",
+            },
+            fontFamily: {
+              "headline-xl": ["Newsreader", "EB Garamond", "serif"],
+              "headline-lg": ["Newsreader", "EB Garamond", "serif"],
+              "headline-md": ["Newsreader", "EB Garamond", "serif"],
+              "headline-sm": ["Newsreader", "EB Garamond", "serif"],
+              "body-lg": ["Hanken Grotesk", "Inter", "sans-serif"],
+              "body-md": ["Hanken Grotesk", "Inter", "sans-serif"],
+              "body-sm": ["Hanken Grotesk", "Inter", "sans-serif"],
+              "label-lg": ["Hanken Grotesk", "Inter", "sans-serif"],
+              "label-md": ["Hanken Grotesk", "Inter", "sans-serif"],
+              "label-sm": ["Hanken Grotesk", "Inter", "sans-serif"],
+              "label-caps": ["Hanken Grotesk", "Inter", "sans-serif"],
+            },
+            fontSize: {
+              "headline-xl": ["44px", { lineHeight: "52px", letterSpacing: "-0.01em" }],
+              "headline-lg": ["32px", { lineHeight: "38px" }],
+              "headline-md": ["24px", { lineHeight: "30px" }],
+              "headline-sm": ["20px", { lineHeight: "26px" }],
+              "body-lg": ["18px", { lineHeight: "28px" }],
+              "body-md": ["16px", { lineHeight: "24px" }],
+              "body-sm": ["14px", { lineHeight: "20px" }],
+              "label-lg": ["14px", { lineHeight: "20px", fontWeight: "600" }],
+              "label-md": ["13px", { lineHeight: "18px", fontWeight: "500" }],
+              "label-sm": ["11px", { lineHeight: "16px", fontWeight: "500" }],
+              "label-caps": ["11px", { lineHeight: "16px", letterSpacing: "0.14em", fontWeight: "600" }],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 1;
+      }
+      .material-symbols-outlined.fill-1 {
+        font-variation-settings: 'FILL' 1;
+      }
+
+      /* Chilled Ambient Shadow */
+      .chilled-shadow {
+        box-shadow: 0 8px 30px rgba(68, 127, 152, 0.08);
+      }
+      .dark .chilled-shadow {
+        box-shadow: 0 12px 36px rgba(0, 15, 24, 0.45);
+      }
+
+      /* Ambient Ice Gradient */
+      .bg-ice-gradient {
+        background: linear-gradient(180deg, #d6ebf3 0%, #eaf5f9 45%, #f6fafd 100%);
+      }
+      .dark .bg-ice-gradient {
+        background: linear-gradient(180deg, #0d1b22 0%, #081217 100%);
+      }
+
+      /* Shimmer line for skeletons */
+      @keyframes glacier-shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+      }
+      .shimmer-line {
+        background: linear-gradient(
+          90deg,
+          rgba(218, 222, 225, 0.4) 0%,
+          rgba(185, 219, 225, 0.7) 50%,
+          rgba(218, 222, 225, 0.4) 100%
+        );
+        background-size: 200% 100%;
+        animation: glacier-shimmer 2.2s infinite ease-in-out;
+      }
+
+      @keyframes spin-subtle {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      .animate-spin-smooth {
+        animation: spin-subtle 1.1s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+      }
+    </style>
+  </head>
+  <body class="h-full bg-ice-gradient text-on-surface dark:text-[#E2EFF5] font-body-md transition-colors duration-200">
+    <div id="root" class="h-full flex flex-col"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
